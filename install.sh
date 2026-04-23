@@ -97,11 +97,19 @@ install_pipanel() {
 
 setup_password() {
   echo ""
-  echo -e "${BOLD}Set a password for PiPanel:${NC}"
-  read -rsp "Password: " PASS
-  echo ""
-  read -rsp "Confirm password: " PASS2
-  echo ""
+  
+  # If piped (curl | bash), use default password
+  if [[ ! -t 0 ]]; then
+    warn "Running non-interactively. Default password set: pipanel123"
+    PASS="pipanel123"
+    PASS2="pipanel123"
+  else
+    echo -e "${BOLD}Set a password for PiPanel:${NC}"
+    read -rsp "Password: " PASS
+    echo ""
+    read -rsp "Confirm password: " PASS2
+    echo ""
+  fi
 
   if [[ "$PASS" != "$PASS2" ]]; then
     error "Passwords do not match"
