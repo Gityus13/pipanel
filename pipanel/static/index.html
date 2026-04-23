@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PiPanel</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖥️</text></svg>" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+<!-- ── Login ──────────────────────────────────── -->
+<div id="login-screen" class="login-screen hidden">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+        <rect width="52" height="52" rx="14" fill="var(--accent)"/>
+        <rect x="9" y="11" width="34" height="23" rx="3" fill="#1c2333" stroke="#e74c3c" stroke-width="1.5"/>
+        <rect x="13" y="15" width="26" height="15" rx="2" fill="#161b27"/>
+        <rect x="18" y="37" width="16" height="3" rx="1.5" fill="#e74c3c"/>
+        <circle cx="16" cy="22" r="2.2" fill="#e74c3c" opacity="0.9"/>
+        <circle cx="23" cy="22" r="2.2" fill="#2ecc71" opacity="0.9"/>
+        <circle cx="30" cy="22" r="2.2" fill="#f39c12" opacity="0.9"/>
+      </svg>
+    </div>
+    <h1>PiPanel</h1>
+    <p class="login-sub">Raspberry Pi 5 Dashboard</p>
+    <div class="login-form">
+      <input type="password" id="password-input" placeholder="Enter password" autofocus />
+      <button id="login-btn" class="btn btn-primary">Sign In</button>
+      <p id="login-error" class="error-msg hidden">Incorrect password.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── Confirm Modal ───────────────────────────── -->
+<div id="modal-overlay" class="modal-overlay hidden" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Confirm</h3>
+      <button class="btn-icon" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modal-body" class="modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button id="modal-confirm" class="btn btn-danger">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ──────────────────────────────────── -->
+<div id="toast-container"></div>
+
+<!-- ── App ───────────────────────────────────── -->
+<div id="app" class="app hidden">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <svg width="28" height="28" viewBox="0 0 52 52" fill="none">
+        <rect width="52" height="52" rx="14" fill="var(--accent)"/>
+        <rect x="9" y="11" width="34" height="23" rx="3" fill="#1c2333" stroke="#e74c3c" stroke-width="1.5"/>
+        <rect x="13" y="15" width="26" height="15" rx="2" fill="#161b27"/>
+        <circle cx="16" cy="22" r="2.2" fill="#e74c3c" opacity="0.9"/>
+        <circle cx="23" cy="22" r="2.2" fill="#2ecc71" opacity="0.9"/>
+      </svg>
+      <span class="sidebar-title">PiPanel</span>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-group-label">System</div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-page="dashboard"><span class="nav-icon">⊞</span><span class="nav-label">Dashboard</span></button>
+        <button class="nav-item" data-page="terminal"><span class="nav-icon">⌨</span><span class="nav-label">Terminal</span></button>
+        <button class="nav-item" data-page="processes"><span class="nav-icon">⚡</span><span class="nav-label">Processes</span></button>
+        <button class="nav-item" data-page="logs"><span class="nav-icon">📋</span><span class="nav-label">Logs</span></button>
+      </nav>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-group-label">Manage</div>
+      <nav class="sidebar-nav">
+        <button class="nav-item" data-page="services"><span class="nav-icon">⚙</span><span class="nav-label">Services</span></button>
+        <button class="nav-item" data-page="packages"><span class="nav-icon">📦</span><span class="nav-label">Updates</span></button>
+        <button class="nav-item" data-page="cron"><span class="nav-icon">🕐</span><span class="nav-label">Cron Jobs</span></button>
+        <button class="nav-item" data-page="docker"><span class="nav-icon">🐳</span><span class="nav-label">Docker</span></button>
+      </nav>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-group-label">Hardware</div>
+      <nav class="sidebar-nav">
+        <button class="nav-item" data-page="files"><span class="nav-icon">📁</span><span class="nav-label">Files</span></button>
+        <button class="nav-item" data-page="disk"><span class="nav-icon">💾</span><span class="nav-label">Disk</span></button>
+        <button class="nav-item" data-page="network"><span class="nav-icon">🌐</span><span class="nav-label">Network</span></button>
+        <button class="nav-item" data-page="gpio"><span class="nav-icon">🔌</span><span class="nav-label">GPIO</span></button>
+        <button class="nav-item" data-page="usb"><span class="nav-icon">🔗</span><span class="nav-label">USB</span></button>
+      </nav>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-group-label">Config</div>
+      <nav class="sidebar-nav">
+        <button class="nav-item" data-page="settings"><span class="nav-icon">🔧</span><span class="nav-label">Settings</span></button>
+      </nav>
+    </div>
+
+    <div class="sidebar-footer">
+      <button id="theme-toggle" class="btn-icon" title="Toggle theme">☀</button>
+      <button id="power-btn" class="btn-icon power-btn" title="Power options">⏻</button>
+      <button id="logout-btn" class="btn-icon" title="Logout">⎋</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div id="page-dashboard"  class="page active"></div>
+    <div id="page-terminal"   class="page"></div>
+    <div id="page-processes"  class="page"></div>
+    <div id="page-logs"       class="page"></div>
+    <div id="page-services"   class="page"></div>
+    <div id="page-packages"   class="page"></div>
+    <div id="page-cron"       class="page"></div>
+    <div id="page-docker"     class="page"></div>
+    <div id="page-files"      class="page"></div>
+    <div id="page-disk"       class="page"></div>
+    <div id="page-network"    class="page"></div>
+    <div id="page-gpio"       class="page"></div>
+    <div id="page-usb"        class="page"></div>
+    <div id="page-settings"   class="page"></div>
+  </main>
+
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>

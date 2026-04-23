@@ -1,0 +1,23 @@
+[Unit]
+Description=PiPanel Web Dashboard
+Documentation=https://github.com/Gityus13/pipanel
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=%i
+WorkingDirectory=/home/%i/.pipanel/repo
+ExecStart=/usr/bin/python3 -m pipanel
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=pipanel
+
+# Security hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "pipanel"
+version = "1.0.0"
+description = "A beautiful, all-in-one web dashboard for Raspberry Pi 5"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [
+  { name = "Gityus13", url = "https://github.com/Gityus13" }
+]
+keywords = ["raspberry-pi", "dashboard", "gpio", "systemd", "webui"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: POSIX :: Linux",
+  "Intended Audience :: End Users/Desktop",
+  "Topic :: System :: Systems Administration",
+]
+dependencies = [
+  "fastapi>=0.110.0",
+  "uvicorn[standard]>=0.29.0",
+  "psutil>=5.9.8",
+  "websockets>=12.0",
+  "python-multipart>=0.0.9",
+  "aiofiles>=23.2.1",
+  "passlib[bcrypt]>=1.7.4",
+  "python-jose[cryptography]>=3.3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Gityus13/pipanel"
+"Bug Tracker" = "https://github.com/Gityus13/pipanel/issues"
+
+[project.scripts]
+pipanel-server = "pipanel.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pipanel*"]
+
+[tool.setuptools.package-data]
+pipanel = ["static/**/*", "static/*"]
