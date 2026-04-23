@@ -76,7 +76,9 @@ install_pipanel() {
 
   if [[ -d "$INSTALL_DIR/repo" ]]; then
     warn "Existing installation found. Updating..."
-    cd "$INSTALL_DIR/repo" && git pull
+    cd "$INSTALL_DIR/repo"
+    git fetch origin
+    git reset --hard origin/main
   else
     mkdir -p "$INSTALL_DIR"
     git clone "$REPO" "$INSTALL_DIR/repo"
