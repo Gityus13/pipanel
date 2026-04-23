@@ -7,10 +7,11 @@ Manage your Pi from any browser on your network — no SSH, no headache.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)](https://python.org)
-[![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-5-red)](https://raspberrypi.com)
+[![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-5-red)](https://www.raspberrypi.com/products/raspberry-pi-5)
+[![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-4-green)](https://www.raspberrypi.com/products/raspberry-pi-4-model-b)
 [![GitHub Stars](https://img.shields.io/github/stars/Gityus13/pipanel?style=social)](https://github.com/Gityus13/pipanel)
 
-![PiPanel Dashboard](https://raw.githubusercontent.com/Gityus13/pipanel/main/docs/screenshot.png)
+![PiPanel Dashboard](PiPanel.png)
 
 </div>
 
